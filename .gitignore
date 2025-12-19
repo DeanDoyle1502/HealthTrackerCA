@@ -1,0 +1,17 @@
+# Java / Kotlin / Maven / Gradle
+target/
+build/
+*.class
+*.log
+
+# IntelliJ
+.idea/
+*.iml
+out/
+
+# OS
+.DS_Store
+
+# Node/Vue (if you add frontend)
+node_modules/
+dist/
