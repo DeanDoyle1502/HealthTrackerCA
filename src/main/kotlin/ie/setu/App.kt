@@ -16,6 +16,5 @@ fun main() {
             SchemaUtils.createMissingTablesAndColumns(Users, Activities)
         }
     }
-q
     JavalinConfig().startJavalinService()
 }
