@@ -5,6 +5,7 @@ import ie.setu.domain.db.Activities
 import ie.setu.utils.mapToActivity
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 class ActivityDAO {
 
@@ -36,6 +37,32 @@ class ActivityDAO {
                 .map {mapToActivity(it)}
         }
     }
+    //Delete specific activity by id
+    fun deleteByActivityId(activityId: Int): Int {
+        return transaction {
+            Activities.deleteWhere { Activities.id eq activityId }
+        }
+    }
+    // Delete activities by userID
+    fun deleteByUserId(userId: Int): Int {
+        return transaction {
+            Activities.deleteWhere { Activities.userId eq userId }
+        }
+    }
+    // Update activity by ID
+    fun updateByActivityId(activityId: Int, activity: Activity): Int {
+        return transaction {
+            Activities.update({ Activities.id eq activityId }) {
+                it[Activities.description] = activity.description
+                it[Activities.duration] = activity.duration
+                it[Activities.started] = activity.started
+                it[Activities.calories] = activity.calories
+                it[Activities.userId] = activity.userId
+            }
+        }
+    }
+
+
 
     //Save an activity to the database
     fun save(activity: Activity){
