@@ -2,7 +2,7 @@ package ie.setu.helpers
 
 import ie.setu.domain.User
 
-val nonExistingEmail = "112233445566778testUser@xxxxx.xx"
+val nonExistingEmail = "testUser@xxxxx.xx"
 val validName = "Test User 1"
 val validEmail = "testuser1@test.com"
 
