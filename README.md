@@ -55,3 +55,15 @@ curl -i "http://$ROUTE/api/activities"
 
 INIT_DB=true: initializes required tables on startup and may seed demo data (testing).
 INIT_DB=false: disables seeding (recommended once the DB is already set up).
+
+## Added Features
+
+This API includes two additional database-backed features:
+
+- **Goals**
+    - Store user goals (e.g. target weight, weekly activity targets, etc.).
+    - Endpoints allow creating goals and retrieving goals (all goals, by goal id, and by user id).
+
+- **Measurements**
+    - Store user measurements over time (e.g. weight, body measurements, or other tracked values).
+    - Endpoints allow creating measurements and retrieving measurements (all measurements, by measurement id, and by user id).
