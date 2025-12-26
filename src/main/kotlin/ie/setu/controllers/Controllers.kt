@@ -8,13 +8,20 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import ie.setu.domain.Activity
 import ie.setu.domain.User
+import ie.setu.domain.Goal
 import ie.setu.domain.repository.ActivityDAO
-
+import ie.setu.domain.repository.GoalDAO
 
 object HealthTrackerController {
 
     private val userDao = UserDAO()
     private val activityDAO = ActivityDAO()
+    private val goalDAO = GoalDAO()
+
+
+    //--------------------------------------------------------------
+    // UserDAO specifics
+    //-------------------------------------------------------------
 
     fun getAllUsers(ctx: Context) {
         ctx.json(userDao.getAll())
@@ -174,6 +181,102 @@ object HealthTrackerController {
         activityDAO.deleteByUserId(userId)
         ctx.status(204)
     }
+
+    //--------------------------------------------------------------
+    // GoalDAO specifics
+    //-------------------------------------------------------------
+
+    fun getAllGoals(ctx: Context) {
+        ctx.json(goalDAO.getAll())
+    }
+
+    fun getGoalsByUserId(ctx: Context) {
+        val userId = ctx.pathParam("user-id").toInt()
+
+        if (userDao.findById(userId) == null) {
+            ctx.status(404).result("User not found")
+            return
+        }
+
+        val goals = goalDAO.findByUserId(userId)
+
+        val mapper = jacksonObjectMapper()
+        ctx.contentType("application/json")
+        ctx.result(mapper.writeValueAsString(goals))
+    }
+
+    fun addGoal(ctx: Context) {
+        val mapper = jacksonObjectMapper()
+        val goal = mapper.readValue<Goal>(ctx.body())
+        goalDAO.save(goal)
+        ctx.json(goal)
+    }
+
+    fun getGoalByGoalId(ctx: Context) {
+        val goalId = ctx.pathParam("goal-id").toIntOrNull()
+        if (goalId == null) {
+            ctx.status(400).result("Invalid goal-id")
+            return
+        }
+
+        val goal = goalDAO.findByGoalId(goalId)
+        if (goal == null) {
+            ctx.status(404).result("Goal not found")
+        } else {
+            ctx.json(goal)
+        }
+    }
+
+    fun updateGoalByGoalId(ctx: Context) {
+        val goalId = ctx.pathParam("goal-id").toIntOrNull()
+        if (goalId == null) {
+            ctx.status(400).result("Invalid goal-id")
+            return
+        }
+
+        val mapper = jacksonObjectMapper()
+        val updatedGoal = mapper.readValue<Goal>(ctx.body())
+
+        val rowsUpdated = goalDAO.updateByGoalId(goalId, updatedGoal)
+        if (rowsUpdated == 0) {
+            ctx.status(404).result("Goal not found")
+        } else {
+            val refreshed = goalDAO.findByGoalId(goalId) ?: updatedGoal
+            ctx.json(refreshed)
+        }
+    }
+
+    fun deleteGoalByGoalId(ctx: Context) {
+        val goalId = ctx.pathParam("goal-id").toIntOrNull()
+        if (goalId == null) {
+            ctx.status(400).result("Invalid goal-id")
+            return
+        }
+
+        val rowsDeleted = goalDAO.deleteByGoalId(goalId)
+        if (rowsDeleted == 0) {
+            ctx.status(404).result("Goal not found")
+        } else {
+            ctx.status(204)
+        }
+    }
+
+    fun deleteGoalsByUserId(ctx: Context) {
+        val userId = ctx.pathParam("user-id").toIntOrNull()
+        if (userId == null) {
+            ctx.status(400).result("Invalid user-id")
+            return
+        }
+
+        if (userDao.findById(userId) == null) {
+            ctx.status(404).result("User not found")
+            return
+        }
+
+        goalDAO.deleteByUserId(userId)
+        ctx.status(204)
+    }
+
 
 
     private fun jodaMapper() = jacksonObjectMapper()

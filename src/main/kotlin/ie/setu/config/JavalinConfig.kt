@@ -24,12 +24,16 @@ class JavalinConfig {
     }
 
     private fun registerRoutes(app: Javalin) {
+
+        //Users
         app.get("/api/users", HealthTrackerController::getAllUsers)
         app.get("/api/users/{user-id}", HealthTrackerController::getUserByUserId)
         app.post("/api/users", HealthTrackerController::addUser)
         app.delete("/api/users/{user-id}", HealthTrackerController::deleteUserById)
         app.patch("/api/users/{user-id}", HealthTrackerController::updateUserById)
         app.get("/api/users/email/{email}", HealthTrackerController::getUserByEmail)
+
+        //Activities
         app.get("/api/activities", HealthTrackerController::getAllActivities)
         app.post("/api/activities", HealthTrackerController::addActivity)
         app.get("/api/users/{user-id}/activities", HealthTrackerController::getActivitiesByUserId)
@@ -37,6 +41,16 @@ class JavalinConfig {
         app.patch("/api/activities/{activity-id}", HealthTrackerController::updateActivityByActivityId)
         app.delete("/api/activities/{activity-id}", HealthTrackerController::deleteActivityByActivityId)
         app.delete("/api/users/{user-id}/activities", HealthTrackerController::deleteActivitiesByUserId)
+
+        //Goals
+        app.get("/api/goals", HealthTrackerController::getAllGoals)
+        app.post("/api/goals", HealthTrackerController::addGoal)
+        app.get("/api/goals/{goal-id}", HealthTrackerController::getGoalByGoalId)
+        app.patch("/api/goals/{goal-id}", HealthTrackerController::updateGoalByGoalId)
+        app.delete("/api/goals/{goal-id}", HealthTrackerController::deleteGoalByGoalId)
+        app.get("/api/users/{user-id}/goals", HealthTrackerController::getGoalsByUserId)
+        app.delete("/api/users/{user-id}/goals", HealthTrackerController::deleteGoalsByUserId)
+
 
     }
 
