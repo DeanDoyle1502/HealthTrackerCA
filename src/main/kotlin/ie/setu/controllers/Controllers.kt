@@ -11,12 +11,17 @@ import ie.setu.domain.User
 import ie.setu.domain.Goal
 import ie.setu.domain.repository.ActivityDAO
 import ie.setu.domain.repository.GoalDAO
+import ie.setu.domain.Measurement
+import ie.setu.domain.repository.MeasurementDAO
+
 
 object HealthTrackerController {
 
     private val userDao = UserDAO()
     private val activityDAO = ActivityDAO()
     private val goalDAO = GoalDAO()
+    private val measurementDAO = MeasurementDAO()
+
 
 
     //--------------------------------------------------------------
@@ -276,6 +281,100 @@ object HealthTrackerController {
         goalDAO.deleteByUserId(userId)
         ctx.status(204)
     }
+
+    //--------------------------------------------------------------
+    // MeasurementsDAO specifics
+    //-------------------------------------------------------------
+
+
+    fun getAllMeasurements(ctx: Context) {
+        ctx.json(measurementDAO.getAll())
+    }
+
+    fun getMeasurementsByUserId(ctx: Context) {
+        val userId = ctx.pathParam("user-id").toInt()
+
+        if (userDao.findById(userId) == null) {
+            ctx.status(404).result("User not found")
+            return
+        }
+
+        val measurements = measurementDAO.findByUserId(userId)
+        ctx.json(measurements)
+    }
+
+    fun addMeasurement(ctx: Context) {
+        val mapper = jacksonObjectMapper()
+        val measurement = mapper.readValue<Measurement>(ctx.body())
+        measurementDAO.save(measurement)
+        ctx.json(measurement)
+    }
+
+    fun getMeasurementByMeasurementId(ctx: Context) {
+        val measurementId = ctx.pathParam("measurement-id").toIntOrNull()
+        if (measurementId == null) {
+            ctx.status(400).result("Invalid measurement-id")
+            return
+        }
+
+        val measurement = measurementDAO.findByMeasurementId(measurementId)
+        if (measurement == null) {
+            ctx.status(404).result("Measurement not found")
+        } else {
+            ctx.json(measurement)
+        }
+    }
+
+    fun updateMeasurementByMeasurementId(ctx: Context) {
+        val measurementId = ctx.pathParam("measurement-id").toIntOrNull()
+        if (measurementId == null) {
+            ctx.status(400).result("Invalid measurement-id")
+            return
+        }
+
+        val mapper = jacksonObjectMapper()
+        val updatedMeasurement = mapper.readValue<Measurement>(ctx.body())
+
+        val rowsUpdated = measurementDAO.updateByMeasurementId(measurementId, updatedMeasurement)
+        if (rowsUpdated == 0) {
+            ctx.status(404).result("Measurement not found")
+        } else {
+            val refreshed = measurementDAO.findByMeasurementId(measurementId) ?: updatedMeasurement
+            ctx.json(refreshed)
+        }
+    }
+
+    fun deleteMeasurementByMeasurementId(ctx: Context) {
+        val measurementId = ctx.pathParam("measurement-id").toIntOrNull()
+        if (measurementId == null) {
+            ctx.status(400).result("Invalid measurement-id")
+            return
+        }
+
+        val rowsDeleted = measurementDAO.deleteByMeasurementId(measurementId)
+        if (rowsDeleted == 0) {
+            ctx.status(404).result("Measurement not found")
+        } else {
+            ctx.status(204)
+        }
+    }
+
+    fun deleteMeasurementsByUserId(ctx: Context) {
+        val userId = ctx.pathParam("user-id").toIntOrNull()
+        if (userId == null) {
+            ctx.status(400).result("Invalid user-id")
+            return
+        }
+
+        if (userDao.findById(userId) == null) {
+            ctx.status(404).result("User not found")
+            return
+        }
+
+        measurementDAO.deleteByUserId(userId)
+        ctx.status(204)
+    }
+
 
 
 
