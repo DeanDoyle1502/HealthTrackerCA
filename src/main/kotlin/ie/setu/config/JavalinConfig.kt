@@ -51,6 +51,15 @@ class JavalinConfig {
         app.get("/api/users/{user-id}/goals", HealthTrackerController::getGoalsByUserId)
         app.delete("/api/users/{user-id}/goals", HealthTrackerController::deleteGoalsByUserId)
 
+        //Measurements
+        app.get("/api/measurements", HealthTrackerController::getAllMeasurements)
+        app.post("/api/measurements", HealthTrackerController::addMeasurement)
+        app.get("/api/measurements/{measurement-id}", HealthTrackerController::getMeasurementByMeasurementId)
+        app.patch("/api/measurements/{measurement-id}", HealthTrackerController::updateMeasurementByMeasurementId)
+        app.delete("/api/measurements/{measurement-id}", HealthTrackerController::deleteMeasurementByMeasurementId)
+        app.get("/api/users/{user-id}/measurements", HealthTrackerController::getMeasurementsByUserId)
+        app.delete("/api/users/{user-id}/measurements", HealthTrackerController::deleteMeasurementsByUserId)
+
 
     }
 

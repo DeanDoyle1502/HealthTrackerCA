@@ -7,6 +7,8 @@ import ie.setu.domain.db.Activities
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import ie.setu.domain.db.Goals
+import ie.setu.domain.db.Measurements
+
 
 
 
@@ -15,7 +17,7 @@ fun main() {
     DbConfig().getDbConnection()
     if (System.getenv("INIT_DB")?.lowercase() == "true") {
         transaction {
-            SchemaUtils.createMissingTablesAndColumns(Users, Activities, Goals)
+            SchemaUtils.createMissingTablesAndColumns(Users, Activities, Goals, Measurements)
         }
     }
     JavalinConfig().startJavalinService()
