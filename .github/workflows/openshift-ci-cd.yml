@@ -34,7 +34,6 @@ jobs:
 
       - name: Set project to msc-agile-sem1-25-ddoyle
         run: |
-          feat/19-cicd-openshift
           oc project msc-agile-sem1-25-ddoyle
 
       - name: Build and deploy the app to OpenShift
