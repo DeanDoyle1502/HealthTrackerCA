@@ -34,6 +34,7 @@ jobs:
 
       - name: Set project to agile-2025-labs
         run: |
+          feat/19-cicd-openshift
           oc project msc-agile-sem1-25-ddoyle
 
       - name: Build and deploy the app to OpenShift
