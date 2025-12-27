@@ -43,3 +43,4 @@ jobs:
       - name: Check deployment status
         run: |
           oc rollout status deployment/health-tracker-rest
+          
