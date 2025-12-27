@@ -38,9 +38,9 @@ jobs:
 
       - name: Build and deploy the app to OpenShift
         run: |
-          oc start-build health-tracker-api --follow
+          oc start-build health-tracker-ca --follow
 
       - name: Check deployment status
         run: |
-          oc rollout status deployment/health-tracker-api
+          oc rollout status deployment/health-tracker-ca
           
