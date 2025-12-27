@@ -22,6 +22,12 @@ class JavalinConfig {
         registerRoutes(app)
         return app
     }
+    // initialised for integration testing
+    fun startJavalinService(port: Int): Javalin {
+        app.start(port)
+        registerRoutes(app)
+        return app
+    }
 
     private fun registerRoutes(app: Javalin) {
 

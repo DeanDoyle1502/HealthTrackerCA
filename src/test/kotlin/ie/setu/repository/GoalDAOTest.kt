@@ -23,7 +23,7 @@ class GoalDAOTest {
         @JvmStatic
         fun setupDb() {
             Database.connect(
-                url = "jdbc:h2:mem:goals-test;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1;",
+                "jdbc:h2:mem:goaldao;DB_CLOSE_DELAY=-1;",
                 driver = "org.h2.Driver",
                 user = "sa",
                 password = ""

@@ -69,3 +69,7 @@ This API includes two additional database-backed features:
     - Endpoints allow creating measurements and retrieving measurements (all measurements, by measurement id, and by user id).
 
 - **Coverage Report with Jacoco**
+
+- **Extra Integration testing**
+
+- **CI/CD Github actions for deployment**

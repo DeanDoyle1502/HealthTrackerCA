@@ -25,7 +25,7 @@ class MeasurementsDAOTest {
 
     private fun populateMeasurementTable(): MeasurementDAO {
         Database.connect(
-            url = "jdbc:h2:mem:measurements-test;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1;",
+            "jdbc:h2:mem:measurementsdao;DB_CLOSE_DELAY=-1;",
             driver = "org.h2.Driver",
             user = "sa",
             password = ""
