@@ -34,7 +34,7 @@ jobs:
 
       - name: Set project to agile-2025-labs
         run: |
-          oc project agile-2025-labs
+          oc project msc-agile-sem1-25-ddoyle
 
       - name: Build and deploy the app to OpenShift
         run: |
