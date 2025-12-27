@@ -12,16 +12,23 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class GoalDAOTest {
 
-    private fun setupDb() {
-        Database.connect(
-            "jdbc:h2:mem:goals-test;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1;",
-            driver = "org.h2.Driver"
-        )
+    companion object {
+        @BeforeAll
+        @JvmStatic
+        fun setupDb() {
+            Database.connect(
+                url = "jdbc:h2:mem:goals-test;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1;",
+                driver = "org.h2.Driver",
+                user = "sa",
+                password = ""
+            )
+        }
     }
 
     private fun populateGoalTable(): GoalDAO {

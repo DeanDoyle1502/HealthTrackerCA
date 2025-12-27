@@ -28,7 +28,12 @@ class ActivityDAOTest {
         @BeforeAll
         @JvmStatic
         internal fun setupInMemoryDatabaseConnection() {
-            Database.connect("jdbc:h2:mem:test", driver = "org.h2.Driver", user = "root", password = "")
+            Database.connect(
+                url = "jdbc:h2:mem:test;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;DB_CLOSE_DELAY=-1",
+                driver = "org.h2.Driver",
+                user = "sa",
+                password = ""
+            )
         }
     }
 
