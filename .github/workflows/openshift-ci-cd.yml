@@ -32,7 +32,7 @@ jobs:
         run: |
           oc login "$OPENSHIFT_API_URL" --token="$OPENSHIFT_TOKEN" --insecure-skip-tls-verify=true
 
-      - name: Set project to agile-2025-labs
+      - name: Set project to msc-agile-sem1-25-ddoyle
         run: |
           feat/19-cicd-openshift
           oc project msc-agile-sem1-25-ddoyle
