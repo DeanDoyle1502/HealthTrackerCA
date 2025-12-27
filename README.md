@@ -67,3 +67,5 @@ This API includes two additional database-backed features:
 - **Measurements**
     - Store user measurements over time (e.g. weight, body measurements, or other tracked values).
     - Endpoints allow creating measurements and retrieving measurements (all measurements, by measurement id, and by user id).
+
+- **Coverage Report with Jacoco**
